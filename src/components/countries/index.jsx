@@ -11,7 +11,6 @@ function Countries() {
     const listCounrty = countries.map((country) => (
         <Counrty country={country} />
     ))
-    console.log(location)
 
     return <div className="counrty-root">{listCounrty}</div>
 }
