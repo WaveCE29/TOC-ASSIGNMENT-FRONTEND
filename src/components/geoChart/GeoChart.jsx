@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react'
 import { select, geoPath, geoMercator, min, max, scaleLinear } from 'd3'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import useResizeObserver from './useResizeObserver'
-
+import { motion } from 'framer-motion'
 import './geoChart.scss'
 /**
  * Component that renders a map of Germany.
@@ -60,15 +60,24 @@ function GeoChart({ data }) {
                 setSelectedCountry(selectedCountry === feature ? null : feature)
                 tooldiv.style('visibility', 'hidden')
                 const naviagete = () => {
-                    navigate(
-                        `${feature.properties.name.toLowerCase()}` +
-                            location.search
-                    )
+                    if (
+                        feature.properties.name_long.toLowerCase() ===
+                        'greenland'
+                    ) {
+                        navigate('denmark' + location.search)
+                    } else {
+                        navigate(
+                            `${feature.properties.name_long.toLowerCase()}` +
+                                location.search
+                        )
+                    }
                 }
                 setTimeout(naviagete, 1500)
             })
             .on('mouseover', (e, d) => {
-                tooldiv.style('visibility', 'visible').text(d.properties.name)
+                tooldiv
+                    .style('visibility', 'visible')
+                    .text(d.properties.name_long)
             })
             .on('mousemove', (e, d) => {
                 tooldiv
@@ -95,18 +104,36 @@ function GeoChart({ data }) {
             .attr('class', 'label')
             .text(
                 (feature) =>
-                    feature && feature.properties['name'].toLocaleString()
+                    feature && feature.properties['sovereignt'].toLocaleString()
             )
             .attr('x', 50)
             .attr('y', 100)
     }, [data, dimensions, selectedCountry, location.search, navigate])
 
     return (
-        <div ref={wrapperRef} className="geochartRoot">
-            <svg className="svg-wrapper" ref={svgRef}>
-                {' '}
+        <motion.div
+            animate={{ opacity: [0, 1] }}
+            transition={{ ease: 'easeInOut', duration: 1 }}
+            exit={{ opacity: 0 }}
+            ref={wrapperRef}
+            className="geochartRoot"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                version="1.1"
+                width="1800"
+                height="1200"
+                className="svg-wrapper"
+                ref={svgRef}
+            >
+                <foreignObject
+                    x="20"
+                    y="20"
+                    width="1800"
+                    height="1200"
+                ></foreignObject>{' '}
             </svg>{' '}
-        </div>
+        </motion.div>
     )
 }
 

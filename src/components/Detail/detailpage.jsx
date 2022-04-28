@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion'
 import React, { useState, useEffect } from 'react'
+import LoadingScrean from '../loading/loading'
 import './detailpage.scss'
 import axios from 'axios'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
+import { motionVariants } from '../../utils/motionvariants'
 function DetailPage() {
     const [country, setCountry] = useState()
     const [loading, setLoading] = useState(true)
@@ -18,10 +20,11 @@ function DetailPage() {
                 if (res && res.data) {
                     setCountry(res.data[0])
                     setLoading(false)
-                    console.log(res.data[0])
+                    setTimeout(() => {}, 100)
                 }
             } catch (error) {
                 setLoading(true)
+                console.log(error)
             }
         }
         getAllCountry()
@@ -30,66 +33,87 @@ function DetailPage() {
         'https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Flag.svg/600px-Flag.svg.png'
     if (loading)
         return (
-            <div>
-                <p>loading</p>
+            <div className="DetailPage">
+                <LoadingScrean />
             </div>
         )
     return (
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ ease: 'easeInOut', duration: 1 }}
-            exit={{ opacity: 0 }}
-            className="DetailPage"
-        >
+        <motion.div className="DetailPage">
             <div className="row">
-                <motion.div className="column">
-                    <div className="img-flag">
-                        <img
+                <motion.div
+                    transition={{ ease: 'easeInOut', duration: 1 }}
+                    variants={motionVariants}
+                    className="column"
+                >
+                    <motion.div
+                        animate="slideToBottom"
+                        transition={{ ease: 'easeInOut', duration: 1 }}
+                        variants={motionVariants}
+                        className="img-flag"
+                    >
+                        <motion.img
+                            className="img-flag"
                             src={country ? country.flagUrl : unKnowFlag}
-                            alt={id}
+                            alt="Girl in a jacket"
                         />
-                    </div>
-                    <h1 className="counrty-name">
+                    </motion.div>
+                    <motion.h1
+                        animate="slideToRight"
+                        transition={{ ease: 'easeInOut', duration: 1.3 }}
+                        variants={motionVariants}
+                        className="counrty-name"
+                    >
                         {country ? country.name : id}{' '}
-                        <span>
-                            (capital : {country ? country.capital : 'NA'})
-                        </span>
-                    </h1>
-
-                    <p className="info">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Curabitur rhoncus ornare lectus, ac condimentum magna
-                        finibus nec. Nunc varius blandit nunc at congue. Donec
-                        aliquam pharetra sapien ac placerat. Aenean sodales
-                        vehicula lectus in vehicula. Pellentesque leo ex,
-                        condimentum ut convallis ac, blandit et ligula. Proin
-                        non risus fringilla, posuere nulla vitae, pretium mi.
-                        Morbi nibh risus, volutpat ut enim a, mattis facilisis
-                        ex. Nulla rhoncus ex sed tortor auctor, ut viverra neque
-                        molestie. Integer sit amet sapien ac lorem commodo
-                        finibus. Nunc venenatis lacus leo, vitae ultrices augue
-                        lobortis quis.
-                    </p>
-                    <div
+                        <span>: {country ? country.capital : 'NA'}</span>
+                    </motion.h1>
+                    <motion.p
+                        animate="slideToRight"
+                        transition={{ ease: 'easeInOut', duration: 1.7 }}
+                        variants={motionVariants}
+                        className="president-name"
+                    >
+                        {country ? country.headOfGoverment : 'NaN'}{' '}
+                    </motion.p>
+                    <motion.p
+                        animate="slideToTop"
+                        transition={{ ease: 'easeInOut', duration: 1.7 }}
+                        variants={motionVariants}
+                        className="info"
+                    >
+                        {country ? country.info : 'NaN'}{' '}
+                    </motion.p>
+                    <motion.span
+                        animate="slideToBottom"
+                        transition={{ ease: 'easeInOut', duration: 1.7 }}
+                        variants={motionVariants}
+                        className="readmore"
                         onClick={() => {
-                            navigate('/' + location.search)
+                            navigate(`${'/readmore/' + id}`)
                         }}
+                    >
+                        readmore...{' '}
+                    </motion.span>{' '}
+                    <motion.div
+                        animate="slideTotop"
+                        transition={{ ease: 'easeInOut', duration: 1.7 }}
+                        variants={motionVariants}
+                        onClick={() => navigate('/#map' + location.search)}
                         className="back-button"
                     >
                         Go back
-                    </div>
+                    </motion.div>
                 </motion.div>
-                <div className="column">
-                    <div className="img-map">
-                        <img
-                            src="https://cdn.britannica.com/47/4047-050-71A61B0E/Thailand-map-boundaries-cities-locator.jpg"
-                            alt="Girl in a jacket"
-                            width="400"
-                            height="500"
-                        />
-                    </div>
-                </div>
+                <motion.div
+                    animate="slidToLeft"
+                    transition={{ ease: 'easeInOut', duration: 1.7 }}
+                    variants={motionVariants}
+                    className="column-map"
+                >
+                    <img
+                        src={country ? country.mapUrl : unKnowFlag}
+                        alt="Girl in a jacket"
+                    />
+                </motion.div>
             </div>
         </motion.div>
     )

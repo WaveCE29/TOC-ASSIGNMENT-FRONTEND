@@ -8,9 +8,15 @@
     //animation: stars 205s linear alternate;
     .tooltip {
         padding: 6px;
-        background-color: #f3ff46;
+        background-color: #525151;
         border-radius: 10px;
+        color: white;
     }
+}
+
+.svg-wrapper {
+    width: 100%;
+    max-height: fit-content;
 }
 
 svg {
@@ -20,14 +26,13 @@ svg {
     justify-content: center;
     align-items: center;
     .country {
-        stroke: #858585;
-        stroke-width: 1px;
-        opacity: 100%;
-        fill: #ffffff;
+        stroke: white;
+        stroke-width: 1.5px;
+        fill: #e2e2e2;
     }
     .country:hover {
         cursor: pointer;
-        fill: #553b94;
+        fill: #ffca00;
         stroke-width: 2px;
         stroke: white;
     }

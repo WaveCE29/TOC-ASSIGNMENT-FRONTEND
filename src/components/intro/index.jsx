@@ -1,27 +1,46 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import './intro.scss'
+import { motionVariants } from '../../utils/motionvariants'
 function Intro() {
     return (
         <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
             transition={{ ease: 'easeInOut', duration: 1 }}
-            exit={{ opacity: 0 }}
             className="intro"
         >
-            <div className="earth3d"></div>
+            <motion.div
+                animate="slideToLeft"
+                transition={{ ease: 'easeInOut', duration: 1 }}
+                variants={motionVariants}
+                className="earth3d"
+            ></motion.div>
 
-            <h1>Country and world leaders information</h1>
+            <motion.h1
+                animate="slideToTop"
+                transition={{ ease: 'easeInOut', duration: 1.5 }}
+                variants={motionVariants}
+            >
+                Country and world leaders information
+            </motion.h1>
 
-            <h2>
+            <motion.h2
+                animate="slideToTop"
+                transition={{ ease: 'easeInOut', duration: 1.7 }}
+                variants={motionVariants}
+            >
                 Do you want to know what's the population in each country? And
                 who are the leaders now?
-            </h2>
+            </motion.h2>
 
-            <a href="#map" className="button">
+            <motion.a
+                animate="slideToBottom"
+                transition={{ ease: 'easeInOut', duration: 1.5 }}
+                variants={motionVariants}
+                href="#map"
+                className="button"
+            >
                 Let's go !
-            </a>
+            </motion.a>
         </motion.div>
     )
 }
